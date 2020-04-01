@@ -4,9 +4,10 @@ import databaseConfig from '../config/database';
 
 // vai importar todos os módulos da aplicação
 import User from '../app/models/User';
+import Recipient from '../app/models/Recipient';
 
 // vetor com os models importados
-const models = [User];
+const models = [User, Recipient];
 
 class Database {
     constructor() {

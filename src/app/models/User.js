@@ -9,7 +9,6 @@ class User extends Model {
                 email: Sequelize.STRING,
                 password: Sequelize.VIRTUAL, // campo que ñ será armazenado no BD
                 password_hash: Sequelize.STRING,
-                provider: Sequelize.BOOLEAN,
             },
             {
                 sequelize,
