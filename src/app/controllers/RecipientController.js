@@ -1,60 +1,62 @@
 import * as Yup from 'yup';
-import jwt from 'jsonwebtoken';
 import Recipient from '../models/Recipient';
-import authConfig from '../../config/auth';
 
 class RecipientController {
-  async store(req, res) {
-      const schema = Yup.object().shape({
-        name: Yup.string().required(),
-        street: Yup.string().required(),
-        number: Yup.string(),
-        complement: Yup.string(),
-        city: Yup.string().required(),
-        state: Yup.string().required(),
-        zip_code: Yup.string().required(),
-      });
+    async store(req, res) {
+        const schema = Yup.object().shape({
+            name: Yup.string().required(),
+            street: Yup.string().required(),
+            number: Yup.string(),
+            complement: Yup.string(),
+            city: Yup.string().required(),
+            state: Yup.string().required(),
+            zip_code: Yup.string().required(),
+        });
 
-      if (! (await schema.isValid(req.body))){
-        return res.status(400).json({ error: 'Erro de validação nos campos.'});
-      }
+        if (!(await schema.isValid(req.body))) {
+            return res
+                .status(400)
+                .json({ error: 'Erro de validação nos campos.' });
+        }
 
-      const recipient = await Recipient.create(req.body);
+        const recipient = await Recipient.create(req.body);
 
-      return res.json(recipient);
-  }
-
-  async update(req, res){
-    const schema = Yup.object().shape({
-      name: Yup.string(),
-      street: Yup.string(),
-      number: Yup.string(),
-      complement: Yup.string(),
-      city: Yup.string(),
-      state: Yup.string(),
-      zip_code: Yup.string(),
-    });
-
-    if (! (await schema.isValid(req.body))){
-      return res.status(400).json({ error: 'Corpo da solicitação inválido.'});
+        return res.json(recipient);
     }
 
-    const paramSchema = Yup.object().shape({
-      id: Yup.number().required(),
-    });
+    async update(req, res) {
+        const schema = Yup.object().shape({
+            name: Yup.string(),
+            street: Yup.string(),
+            number: Yup.string(),
+            complement: Yup.string(),
+            city: Yup.string(),
+            state: Yup.string(),
+            zip_code: Yup.string(),
+        });
 
-    if (! (await paramSchema.isValid(req.params))){
-      return res.status(400).json({ error: 'Parâmetro inválido'});
+        if (!(await schema.isValid(req.body))) {
+            return res
+                .status(400)
+                .json({ error: 'Corpo da solicitação inválido.' });
+        }
+
+        const paramSchema = Yup.object().shape({
+            id: Yup.number().required(),
+        });
+
+        if (!(await paramSchema.isValid(req.params))) {
+            return res.status(400).json({ error: 'Parâmetro inválido' });
+        }
+
+        const recipient = await Recipient.findByPk(req.params.id);
+
+        if (!recipient) {
+            return res.json(404).json({ error: 'Destinatário não existe.' });
+        }
+
+        return res.json(await recipient.update(req.body));
     }
-
-    const recipient = await Recipient.findByPk( req.params.id );
-
-    if (!recipient){
-      return res.json(404).json({error: 'Destinatário não existe.'});
-    }
-
-    return res.json( await recipient.update(req.body));
-  }
 }
 
 export default new RecipientController();
