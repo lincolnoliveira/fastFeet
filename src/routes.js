@@ -7,6 +7,8 @@ import authMiddleware from './app/middlewares/auth';
 import SessionController from './app/controllers/SessionController';
 import RecipientController from './app/controllers/RecipientController';
 import DeliveryManController from './app/controllers/DeliveryManController';
+import DeliveryAdminController from './app/controllers/DeliveryAdminController';
+import FileController from './app/controllers/FileController';
 
 const upload = multer(multerConfig);
 
@@ -23,9 +25,7 @@ routes.post('/recipients', RecipientController.store);
 routes.put('/recipients/:id', RecipientController.update);
 
 // rota para subir arquivo avatar ou assinatura
-routes.post('/files', upload.single('file'), (req, res) => {
-    return res.json({ upload: true });
-});
+routes.post('/files', upload.single('file'), FileController.store);
 
 // rotas para gestão de entregadores
 routes.post('/deliverymen', DeliveryManController.store);
@@ -33,5 +33,10 @@ routes.put('/deliverymen/:id', DeliveryManController.update);
 routes.get('/deliverymen', DeliveryManController.index);
 routes.delete('/deliverymen/:id', DeliveryManController.delete);
 
-// module.exports = routes;
+// rotas para gestão das encomendas pelo administrador
+routes.post('/delivery-admin', DeliveryAdminController.store);
+routes.put('/delivery-admin/:id', DeliveryAdminController.update);
+routes.get('/delivery-admin', DeliveryAdminController.index);
+routes.delete('/delivery-admin/:id', DeliveryAdminController.delete);
+
 export default routes;
