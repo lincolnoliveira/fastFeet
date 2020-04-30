@@ -7,7 +7,7 @@ class DeliveryMan extends Model {
                 name: Sequelize.STRING,
                 email: Sequelize.STRING,
             },
-            { sequelize }
+            { sequelize, tableName: 'deliverymen' }
         );
         return this;
     }

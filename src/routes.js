@@ -6,7 +6,7 @@ import multerConfig from './config/multer';
 import authMiddleware from './app/middlewares/auth';
 import SessionController from './app/controllers/SessionController';
 import RecipientController from './app/controllers/RecipientController';
-import DeliveryMenController from './app/controllers/DeliveryMenController';
+import DeliveryManController from './app/controllers/DeliveryManController';
 
 const upload = multer(multerConfig);
 
@@ -28,10 +28,10 @@ routes.post('/files', upload.single('file'), (req, res) => {
 });
 
 // rotas para gestão de entregadores
-routes.post('/deliverymen', DeliveryMenController.store);
-routes.put('/deliverymen/:id', DeliveryMenController.update);
-routes.get('/deliverymen', DeliveryMenController.index);
-routes.delete('/deliverymen/:id', DeliveryMenController.delete);
+routes.post('/deliverymen', DeliveryManController.store);
+routes.put('/deliverymen/:id', DeliveryManController.update);
+routes.get('/deliverymen', DeliveryManController.index);
+routes.delete('/deliverymen/:id', DeliveryManController.delete);
 
 // module.exports = routes;
 export default routes;

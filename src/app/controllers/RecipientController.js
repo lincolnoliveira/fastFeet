@@ -52,7 +52,7 @@ class RecipientController {
         const recipient = await Recipient.findByPk(req.params.id);
 
         if (!recipient) {
-            return res.json(404).json({ error: 'Destinatário não existe.' });
+            return res.status(404).json({ error: 'Destinatário não existe.' });
         }
 
         return res.json(await recipient.update(req.body));
